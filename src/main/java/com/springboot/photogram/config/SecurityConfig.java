@@ -30,7 +30,8 @@ public class SecurityConfig {
                         ).authenticated()
                         .anyRequest().permitAll())  //다른 경로들은 모두 허용한다.
                 .formLogin(login -> login
-                        .loginPage("/auth/signin")	// 인증해야 하는 경로에 접근했을 경우 이 로그인페이지로 이동한다.
+                        .loginPage("/auth/signin")	// GET : 인증해야 하는 경로에 접근했을 경우 이 로그인페이지로 이동
+                        .loginProcessingUrl("/auth/signin")  // POST : 스프링 시큐리티가 로그인 프로세스를 진행
                         .defaultSuccessUrl("/", true)); //여기서 로그인을 성공하면 여기로 이동한다.
         return http.build();
     }

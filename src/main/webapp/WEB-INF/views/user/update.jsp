@@ -16,7 +16,7 @@
 					<img src="#" onerror="this.src='/images/person.jpeg'" />
 				</div>
 				<div class="item__username">
-					<h2>TherePrograming</h2>
+					<h2>${principal.username}</h2>
 				</div>
 			</div>
 			<!--프로필셋팅 아이디영역end-->
@@ -27,14 +27,14 @@
 					<div class="item__title">이름</div>
 					<div class="item__input">
 						<input type="text" name="name" placeholder="이름"
-							value="겟인데어" />
+							value="${principal.name}" />
 					</div>
 				</div>
 				<div class="content-item__03">
 					<div class="item__title">유저네임</div>
 					<div class="item__input">
 						<input type="text" name="username" placeholder="유저네임"
-							value="TherePrograming" readonly="readonly" />
+							value="${principal.username}" readonly="readonly" />
 					</div>
 				</div>
 				<div class="content-item__04">
@@ -47,7 +47,7 @@
 					<div class="item__title">웹사이트</div>
 					<div class="item__input">
 						<input type="text" name="website" placeholder="웹 사이트"
-							value="https://github.com/codingspecialist" />
+							value="${principal.website}" />
 					</div>
 				</div>
 				<div class="content-item__06">
