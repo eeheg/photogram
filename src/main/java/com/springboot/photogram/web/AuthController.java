@@ -1,6 +1,7 @@
 package com.springboot.photogram.web;
 
 import com.springboot.photogram.domain.user.User;
+import com.springboot.photogram.handler.ex.CustomValidationApiException;
 import com.springboot.photogram.handler.ex.CustomValidationException;
 import com.springboot.photogram.service.AuthService;
 import com.springboot.photogram.web.dto.auth.SignupDTO;
