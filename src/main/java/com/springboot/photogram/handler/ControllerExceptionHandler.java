@@ -1,5 +1,6 @@
 package com.springboot.photogram.handler;
 
+import com.springboot.photogram.handler.ex.CustomApiException;
 import com.springboot.photogram.handler.ex.CustomValidationApiException;
 import com.springboot.photogram.handler.ex.CustomValidationException;
 import com.springboot.photogram.util.Script;
@@ -21,11 +22,14 @@ public class ControllerExceptionHandler {
             3. Android 통신 - CMResponseDTO
       */
 
-    @ExceptionHandler(CustomValidationException.class)  //발생하는 RuntimeException을 모두 이 함수가 가로챔
+    @ExceptionHandler(CustomValidationException.class)  //발생하는 CustomValidationException 모두 이 함수가 가로챔
     public String validationException(CustomValidationException e) {
         // 클라이언트에게 응답 - Script (자바스크립트를 리턴)
-        System.out.println(e.getErrorMap().toString());
-        return Script.back(e.getErrorMap().toString());
+        if(e.getErrorMap() == null) {
+            return Script.back(e.getMessage());
+        } else {
+            return Script.back(e.getErrorMap().toString());
+        }
     }
 
     @ExceptionHandler(CustomValidationApiException.class)
@@ -50,5 +54,16 @@ public class ControllerExceptionHandler {
             }
         }
          */
+    }
+
+    @ExceptionHandler(CustomApiException.class)  //발생하는 RuntimeException을 모두 이 함수가 가로챔
+    public ResponseEntity<CMResponseDTO<Map<String, String>>> apiException(CustomApiException e) {
+        // Ajax 통신 - CMResponseDTO (데이터를 리턴)
+        CMResponseDTO cmResponseDTO = new CMResponseDTO (-1, e.getMessage(), null);
+        // CMResponseDTO(code=-1, errorMessage=유효성 검사 실패함, errorMap={name=공백일 수 없습니다})
+        ResponseEntity responseEntity = new ResponseEntity<>(cmResponseDTO, HttpStatus.BAD_REQUEST);
+        System.out.println(responseEntity);
+        //  <400 BAD_REQUEST Bad Request,CMResponseDTO(code=-1, errorMessage=유효성 검사 실패함, errorMap=null),[]>
+        return responseEntity;
     }
 }

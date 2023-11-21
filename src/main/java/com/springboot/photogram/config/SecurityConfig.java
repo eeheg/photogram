@@ -26,7 +26,8 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/user/**"),
                                 new AntPathRequestMatcher("/image/**"),
                                 new AntPathRequestMatcher("/subscribe/**"),
-                                new AntPathRequestMatcher("/comment/**")
+                                new AntPathRequestMatcher("/comment/**"),
+                                new AntPathRequestMatcher("/api/**")
                         ).authenticated()
                         .anyRequest().permitAll())  //다른 경로들은 모두 허용한다.
                 .formLogin(login -> login

@@ -3,6 +3,7 @@ package com.springboot.photogram.service;
 import com.springboot.photogram.domain.user.User;
 import com.springboot.photogram.domain.user.UserRepository;
 import com.springboot.photogram.handler.ex.CustomValidationApiException;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +16,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public User 회원프로필(Long userId) {
+        //SELECT * FROM image WHERE user_id = :userId;
+        User userEntity = userRepository.findById(userId).orElseThrow(() ->
+                new ValidationException("해당 프로필 페이지는 없는 페이지입니다.", null)
+        );
+        userEntity.getImages().get(0);
+        return userEntity;
+    }
 
     @Transactional
     public User 회원수정(Long id, User user) {

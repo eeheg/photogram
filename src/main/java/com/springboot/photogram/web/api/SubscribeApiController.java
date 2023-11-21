@@ -16,15 +16,15 @@ public class SubscribeApiController {
 
     private final SubscribeService subscribeService;
 
-    @PostMapping("/api/subscrinbe/{toUserId}")
+    @PostMapping("/api/subscribe/{toUserId}")
     public ResponseEntity subscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long toUserId) {
-        int result = subscribeService.구독하기(principalDetails.getUser().getId(), toUserId);
+        subscribeService.구독하기(principalDetails.getUser().getId(), toUserId);
         return null;
     }
 
-    @PostMapping("/api/subscrinbe/{toUserId}")
+    @PostMapping("/api/unSubscribe/{toUserId}")
     public ResponseEntity unSubscribe(@AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long toUserId) {
-        int result = subscribeService.구독취소하기(principalDetails.getUser().getId(), toUserId);
+        subscribeService.구독취소하기(principalDetails.getUser().getId(), toUserId);
         return null;
     }
 }

@@ -22,9 +22,9 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
 
   servlet:
@@ -37,5 +37,5 @@ spring:
       name: test
       password: 1234
 
-#file:
-#  path: C:/workspace/springbootwork/upload/
+file:
+  path: C:/Users/user/fileForPhotogram/
