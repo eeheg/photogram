@@ -1,9 +1,12 @@
 package com.springboot.photogram.service;
 
+import com.springboot.photogram.domain.subscribe.SubscribeRepository;
 import com.springboot.photogram.domain.user.User;
 import com.springboot.photogram.domain.user.UserRepository;
 import com.springboot.photogram.handler.ex.CustomValidationApiException;
+import com.springboot.photogram.web.dto.user.UserProfileDTO;
 import jakarta.validation.ValidationException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,15 +18,26 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User 회원프로필(Long userId) {
+    public UserProfileDTO 회원프로필(Long pageUserId, Long principalId) {
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
         //SELECT * FROM image WHERE user_id = :userId;
-        User userEntity = userRepository.findById(userId).orElseThrow(() ->
+        User userEntity = userRepository.findById(pageUserId).orElseThrow(() ->
                 new ValidationException("해당 프로필 페이지는 없는 페이지입니다.", null)
         );
-        userEntity.getImages().get(0);
-        return userEntity;
+        userProfileDTO.setUser(userEntity);
+        userProfileDTO.setPageOwnerState(Objects.equals(pageUserId, principalId));
+        userProfileDTO.setImageCount(userEntity.getImages().size());
+
+        int subscribeState = subscribeRepository.mSubscribeState(principalId, pageUserId);
+        int subscribeCount = subscribeRepository.mSubscribeCount(pageUserId);
+
+        userProfileDTO.setSubscribeState(subscribeState == 1);  // subscribeState == 1 이면 true
+        userProfileDTO.setSubscribeCount(subscribeCount);
+
+        return userProfileDTO;
     }
 
     @Transactional

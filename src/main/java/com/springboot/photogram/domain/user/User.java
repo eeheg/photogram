@@ -1,5 +1,6 @@
 package com.springboot.photogram.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.springboot.photogram.domain.image.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ public class User {
     // FetchType.Lazy=User를 Select할 때 해당 User id로 등록된 image들을 가져오지 마. - 대신 getImages()가 호출될 때 가져와.
     // FetchType.Eager=User를 Select할 때 해당 User id로 등록된 image들을 전부 Join해서 가져와.
     @OneToMany(mappedBy = "user", fetch=FetchType.LAZY)
+    @JsonIgnoreProperties("{user}")  //순환참조 문제 해결
     public List<Image> images;  //양방향 매핑
 
     @PrePersist  //디비에 insert 되기 직전에 실행

@@ -34,4 +34,15 @@ public class Image {
     public void createDate() {
         this.createDate = LocalDateTime.now();
     }
+
+    //System.out.println으로 인한 무한참조 -> getter 오버라이딩하여 User부분 삭제
+//    @Override
+//    public String toString() {
+//        return "Image{" +
+//                "id=" + id +
+//                ", caption='" + caption + '\'' +
+//                ", postImageUrl='" + postImageUrl + '\'' +
+//                ", createDate=" + createDate +
+//                '}';
+//    }
 }

@@ -7,6 +7,7 @@ import com.springboot.photogram.web.dto.image.ImageUploadDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.*;
 import java.util.UUID;
@@ -17,6 +18,8 @@ public class ImageService {
     private final ImageRepository imageRepository;
     @Value("${file.path}")  //application.yml > file: path: C:/Users/user/fileForPhotogram/
     private String uploadFolder;
+
+    @Transactional
     public void 사진업로드(ImageUploadDTO imageUploadDTO, PrincipalDetails principalDetails) {
         //uuid(Universally Unique Identifier): 네트워크 상에서 고유성이 보장되는 id를 만들기 위한 표준 규약
         UUID uuid = UUID.randomUUID();
@@ -31,8 +34,7 @@ public class ImageService {
         }
 
         Image image = imageUploadDTO.toEntity(imageFileName, principalDetails.getUser());
-        Image imageEntity = imageRepository.save(image);
-        System.out.println(imageEntity);
+        imageRepository.save(image);
 
     }
 }
